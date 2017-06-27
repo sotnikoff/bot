@@ -40,11 +40,42 @@ class TelegramController extends Controller
         Log::info($request);
 
         $input = $request->all();
-        $text = $input['message']['text'];
-        if($text === 'Пошел на хуй' or $text === 'Пошёл на хуй'){
+        $text = mb_strtolower($input['message']['text']);
+        /*
+        if($text === 'пошел на хуй' or $text === 'пошёл на хуй'){
             $message = 'Сам пошел!';
         }else{
             $message = 'Я не знаю, что ты хочешь от меня, но я рад, что ты со мной заговорил!';
+        }*/
+
+        switch ($text)
+        {
+            case 'пошел на хуй':
+                $message = 'Сам пошёл!';
+                break;
+            case 'пошёл на хуй':
+                $message = 'Сам пошел!';
+                break;
+            case 'иди на хуй':
+                $message = 'Сам иди!';
+                break;
+            case 'привет':
+                $message = 'Доброго времени,'.$input['message']['from']['first_name'];
+                break;
+            case 'добрый день':
+                $message = 'Доброго дня,'.$input['message']['from']['first_name'];
+                break;
+            case 'как дела?':
+                $message = 'Отлично. Но как у тебя дела, мне не интересно, можешь не рассказывать';
+                break;
+            case 'что нового?':
+                $message = 'Я новый!';
+                break;
+            case 'ты кто?':
+                $message = 'Я - твое воображение';
+                break;
+            default:
+                $message = 'Я не знаю, что ты хочешь от меня, но я рад, что ты со мной заговорил!';
         }
 
         Telegram::sendChatAction([
