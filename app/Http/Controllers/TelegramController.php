@@ -60,10 +60,10 @@ class TelegramController extends Controller
                 $message = 'Сам иди!';
                 break;
             case 'привет':
-                $message = 'Доброго времени,'.$input['message']['from']['first_name'];
+                $message = 'Доброго времени, '.$input['message']['from']['first_name'];
                 break;
             case 'добрый день':
-                $message = 'Доброго дня,'.$input['message']['from']['first_name'];
+                $message = 'Доброго дня, '.$input['message']['from']['first_name'];
                 break;
             case 'как дела?':
                 $message = 'Отлично. Но как у тебя дела, мне не интересно, можешь не рассказывать';
