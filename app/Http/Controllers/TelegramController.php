@@ -86,8 +86,12 @@ class TelegramController extends Controller
         ]);
 
         $ratio = (int)floor(mb_strlen($message)/2.5);
-
-        sleep(rand(1,4)+$ratio);
+        $sleep = rand(1,4)+$ratio;
+        if($sleep>5){
+            sleep(5);
+        }else{
+            sleep($sleep);
+        }
 
         Telegram::sendMessage([
             'chat_id' => $input['message']['from']['id'],
