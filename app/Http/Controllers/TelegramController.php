@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Telegram\Bot\Laravel\Facades\Telegram;
+use Illuminate\Support\Facades\Log;
 
 class TelegramController extends Controller
 {
@@ -24,13 +25,19 @@ class TelegramController extends Controller
     {
         Telegram::sendMessage([
             'chat_id' => '267788898',
-            'text' => 'asddddasd',
+            'text' => 'Привет, как дела?',
         ]);
     }
 
     public function test()
     {
-        return 'test';
+        $response = Telegram::setWebhook(['url' => 'https://etg.hofch.ru/api/'.env('TELEGRAM_BOT_TOKEN','').'/webhook']);
+        return $response;
+    }
+
+    public function webhook(Request $request)
+    {
+        Log::info($request);
     }
 
 }
