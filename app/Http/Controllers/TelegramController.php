@@ -40,7 +40,7 @@ class TelegramController extends Controller
         Log::info($request);
 
         $input = $request->all();
-        $text = mb_strtolower($input['message']['text']);
+        $text = trim(mb_strtolower($input['message']['text']));
         /*
         if($text === 'пошел на хуй' or $text === 'пошёл на хуй'){
             $message = 'Сам пошел!';
