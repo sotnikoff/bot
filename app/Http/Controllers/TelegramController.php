@@ -38,6 +38,14 @@ class TelegramController extends Controller
     public function webhook(Request $request)
     {
         Log::info($request);
+
+        $input = $request->all();
+
+        Telegram::sendMessage([
+            'chat_id' => $input['message']['from']['id'],
+            'text' => 'Ку!',
+        ]);
+
     }
 
 }
