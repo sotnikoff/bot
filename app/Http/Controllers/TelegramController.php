@@ -50,6 +50,9 @@ class TelegramController extends Controller
 
         switch ($text)
         {
+            case '/start':
+                $message = 'Добро пожаловать к самому тупому боту, наговнокоденному на PHP!';
+                break;
             case 'пошел на хуй':
                 $message = 'Сам пошёл!';
                 break;
