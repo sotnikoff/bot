@@ -47,6 +47,13 @@ class TelegramController extends Controller
             $message = 'Я не знаю, что ты хочешь от меня, но я рад, что ты со мной заговорил!';
         }
 
+        Telegram::sendChatAction([
+            'chat_id' => $input['message']['from']['id'],
+            'action' => 'typing',
+        ]);
+
+        sleep(3);
+
         Telegram::sendMessage([
             'chat_id' => $input['message']['from']['id'],
             'text' => $message,
