@@ -85,7 +85,9 @@ class TelegramController extends Controller
             'action' => 'typing',
         ]);
 
-        sleep(rand(1,4));
+        $ratio = (int)floor(mb_strlen($message)/2.5);
+
+        sleep(rand(1,4)+$ratio);
 
         Telegram::sendMessage([
             'chat_id' => $input['message']['from']['id'],
