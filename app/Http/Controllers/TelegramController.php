@@ -52,7 +52,7 @@ class TelegramController extends Controller
             'action' => 'typing',
         ]);
 
-        sleep(3);
+        sleep(rand(1,4));
 
         Telegram::sendMessage([
             'chat_id' => $input['message']['from']['id'],
