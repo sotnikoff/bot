@@ -78,6 +78,8 @@ class TelegramController extends Controller
                 $message = 'Я не знаю, что ты хочешь от меня, но я рад, что ты со мной заговорил!';
         }
 
+        sleep(rand(3,7));
+
         Telegram::sendChatAction([
             'chat_id' => $input['message']['from']['id'],
             'action' => 'typing',
