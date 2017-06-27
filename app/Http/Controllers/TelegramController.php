@@ -40,10 +40,16 @@ class TelegramController extends Controller
         Log::info($request);
 
         $input = $request->all();
+        $text = $input['message']['text'];
+        if($text === 'Пошел на хуй' or $text === 'Пошёл на хуй'){
+            $message = 'Сам пошел!';
+        }else{
+            $message = 'Я не знаю, что ты хочешь от меня, но я рад, что ты со мной заговорил!';
+        }
 
         Telegram::sendMessage([
             'chat_id' => $input['message']['from']['id'],
-            'text' => 'Ку!',
+            'text' => $message,
         ]);
 
     }
