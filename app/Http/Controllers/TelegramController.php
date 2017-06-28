@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Telegram\Bot\Laravel\Facades\Telegram;
 use Illuminate\Support\Facades\Log;
+use App\Jobs\SendTelegramMessage;
 
 class TelegramController extends Controller
 {
@@ -81,25 +82,7 @@ class TelegramController extends Controller
                 $message = 'Я не знаю, что ты хочешь от меня, но я рад, что ты со мной заговорил!';
         }
 
-        sleep(rand(3,7));
-
-        Telegram::sendChatAction([
-            'chat_id' => $input['message']['from']['id'],
-            'action' => 'typing',
-        ]);
-
-        $ratio = (int)floor(mb_strlen($message)/2.5);
-        $sleep = rand(1,4)+$ratio;
-        if($sleep>5){
-            sleep(5);
-        }else{
-            sleep($sleep);
-        }
-
-        Telegram::sendMessage([
-            'chat_id' => $input['message']['from']['id'],
-            'text' => $message,
-        ]);
+        dispatch(new SendTelegramMessage($input['message']['from']['id'],$message));
 
     }
 
