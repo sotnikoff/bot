@@ -56,8 +56,23 @@ class TelegramController extends Controller
             return ['no message'];
         }
 
+        if(isset($message['text']) and !empty($message['text']))
+        {
+            $text = $message['text'];
+        }
+        elseif (isset($message['location']) and !empty($message['location']))
+        {
+            $text = $message['location'];
+        }
+        else
+        {
+            Log::info('no text');
+            return ['no text'];
+        }
 
-        $text = trim(mb_strtolower($message['text']));
+
+
+        $text = trim(mb_strtolower($text));
         $from = $message['from']['first_name'];
 
         $keyboard = [
