@@ -15,38 +15,31 @@ class SendTelegramMessage implements ShouldQueue
 
     var $message;
     var $to;
+    var $reply_markup;
 
-    /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
-    public function __construct($to,$message)
+
+    public function __construct($to,$message,$reply_markup = null)
     {
         $this->message = $message;
         $this->to = $to;
+        $this->reply_markup = $reply_markup;
+
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
     public function handle()
     {
-        sleep(rand(1,3));
 
-        Telegram::sendChatAction([
-            'chat_id' => $this->to,
-            'action' => 'typing',
-        ]);
-
-        sleep(rand(1,3));
-
-        Telegram::sendMessage([
+        $params = [
             'chat_id' => $this->to,
             'text' => $this->message,
-        ]);
+        ];
+
+        if(!$this->reply_markup)
+        {
+            $params['reply_markup'] = $this->reply_markup;
+        }
+
+        Telegram::sendMessage($params);
 
 
     }

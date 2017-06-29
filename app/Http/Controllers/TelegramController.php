@@ -41,48 +41,42 @@ class TelegramController extends Controller
         Log::info($request);
 
         $input = $request->all();
-        $text = trim(mb_strtolower($input['message']['text']));
-        /*
-        if($text === 'пошел на хуй' or $text === 'пошёл на хуй'){
-            $message = 'Сам пошел!';
-        }else{
-            $message = 'Я не знаю, что ты хочешь от меня, но я рад, что ты со мной заговорил!';
-        }*/
 
-        switch ($text)
+        if(isset($input['message']) and !empty($input['message']))
         {
-            case '/start':
-                $message = 'Добро пожаловать к самому тупому боту, наговнокоденному на PHP!';
-                break;
-            case 'пошел на хуй':
-                $message = 'Сам пошёл!';
-                break;
-            case 'пошёл на хуй':
-                $message = 'Сам пошел!';
-                break;
-            case 'иди на хуй':
-                $message = 'Сам иди!';
-                break;
-            case 'привет':
-                $message = 'Доброго времени, '.$input['message']['from']['first_name'];
-                break;
-            case 'добрый день':
-                $message = 'Доброго дня, '.$input['message']['from']['first_name'];
-                break;
-            case 'как дела?':
-                $message = 'Отлично. Но как у тебя дела, мне не интересно, можешь не рассказывать';
-                break;
-            case 'что нового?':
-                $message = 'Я новый!';
-                break;
-            case 'ты кто?':
-                $message = 'Я - твое воображение';
-                break;
-            default:
-                $message = 'Я не знаю, что ты хочешь от меня, но я рад, что ты со мной заговорил!';
+            $message = $input['message'];
+        }
+        elseif (isset($input['edited_message']) and !empty($input['edited_message']))
+        {
+            $message = $input['edited_message'];
+        }
+        else
+        {
+            Log::info('no message sent');
+            return ['no message'];
         }
 
-        dispatch(new SendTelegramMessage($input['message']['from']['id'],$message));
+
+        $text = trim(mb_strtolower($message['text']));
+        $from = $message['from']['first_name'];
+
+        $keyboard = [
+            [
+                'text'                  =>      'Отправить мое местоположение',
+                'request_contact'       =>      false,
+                'request_location'      =>      true,
+            ]
+        ];
+
+        $reply_markup = Telegram::replyKeyboardMarkup([
+            'keyboard' => $keyboard,
+            'resize_keyboard' => true,
+            'one_time_keyboard' => true
+        ]);
+
+
+
+        dispatch(new SendTelegramMessage($input['message']['from']['id'],'Где Вы?'), $reply_markup);
 
     }
 
