@@ -76,7 +76,7 @@ class TelegramController extends Controller
 
 
 
-        dispatch(new SendTelegramMessage($input['message']['from']['id'],'Где Вы?'), $reply_markup);
+        dispatch(new SendTelegramMessage($input['message']['from']['id'],'Где Вы?', $reply_markup));
 
     }
 
