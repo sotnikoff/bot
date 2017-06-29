@@ -31,7 +31,7 @@ class SendTelegramMessage implements ShouldQueue
 
         $params = [
             'chat_id' => $this->to,
-            'text' => $this->reply_markup,
+            'text' => $this->message,
         ];
 
         if(!$this->reply_markup)

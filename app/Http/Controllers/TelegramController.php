@@ -62,10 +62,12 @@ class TelegramController extends Controller
 
         $keyboard = [
             [
-                'text'                  =>      'Отправить мое местоположение',
-                'request_contact'       =>      false,
-                'request_location'      =>      true,
-            ]
+                [
+                    'text'                  =>      'Отправить мое местоположение',
+                    'request_contact'       =>      false,
+                    'request_location'      =>      true,
+                ],
+            ],
         ];
 
         $reply_markup = Telegram::replyKeyboardMarkup([
