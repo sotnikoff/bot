@@ -67,6 +67,11 @@ class TelegramController extends Controller
                     'request_contact'       =>      false,
                     'request_location'      =>      true,
                 ],
+                [
+                    'text'                  =>      'Отправить мое местоположение111',
+                    'request_contact'       =>      false,
+                    'request_location'      =>      true,
+                ],
             ],
         ];
 
