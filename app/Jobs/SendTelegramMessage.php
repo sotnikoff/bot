@@ -7,39 +7,39 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Laravel\Facades\Telegram;
+use App\TelegramState;
 
 class SendTelegramMessage implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    var $message;
-    var $to;
-    var $reply_markup;
+    var $params;
+    var $workflow;
+    var $telegramState;
 
-
-    public function __construct($to,$message,$reply_markup = null)
+    public function __construct($params,$workflow,TelegramState $state)
     {
-        $this->message = $message;
-        $this->to = $to;
-        $this->reply_markup = $reply_markup;
-
+        $this->params = $params;
+        $this->workflow = $workflow;
+        $this->telegramState = $state;
     }
 
     public function handle()
     {
 
-        $params = [
-            'chat_id' => $this->to,
-            'text' => $this->message,
-        ];
+        //Log::info($this->params);
+        //Log::info(var_export($this->params,true));
 
-        if($this->reply_markup)
-        {
-            $params['reply_markup'] = $this->reply_markup;
-        }
+        $res = Telegram::sendMessage($this->params);
 
-        Telegram::sendMessage($params);
+        $messageId = $res->getMessageId();
+
+        Log::info($messageId);
+
+        $this->telegramState->workflow_name = $this->workflow;
+        $this->telegramState->save();
 
 
     }
